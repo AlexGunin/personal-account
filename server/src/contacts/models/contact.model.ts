@@ -9,6 +9,8 @@ import {
 import { Category } from './category.model';
 import { ContactCategory } from './contact_category.model';
 import { User } from '../../users/models/user.model';
+import { Social } from './social.model';
+import { ContactSocial } from './contact_social.model';
 
 @Table
 export class Contact extends Model {
@@ -29,4 +31,7 @@ export class Contact extends Model {
 
   @BelongsToMany(() => Category, () => ContactCategory)
   categories: Category[];
+
+  @BelongsToMany(() => Social, () => ContactSocial)
+  socials: Social[];
 }
