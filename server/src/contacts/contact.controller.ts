@@ -15,9 +15,18 @@ export class ContactController {
     private readonly contactHelperService: ContactHelperService,
   ) {}
 
+  @Get(':user_id')
+  getAllUserContact(@Param('user_id') user_id: string): Promise<Contact[]> {
+    return this.contactService.getAll(user_id);
+  }
+
+  @Post('category')
+  createCategory(@Body() dto: CategoryInterface): Promise<Category> {
+    return this.contactHelperService.createCategory(dto);
+  }
+
   @Post()
   async create(@Body() dto: CreateContactDto): Promise<Contact> {
-    console.log(dto);
     const contact = await this.contactService.create(dto);
     await this.contactHelperService.createContactSocials({
       contact_id: contact.id,
@@ -28,16 +37,6 @@ export class ContactController {
       categories: dto.categories,
     });
     return contact;
-  }
-
-  @Get(':user_id')
-  getAllUserContact(@Param('user_id') user_id: string): Promise<Contact[]> {
-    return this.contactService.getAll(user_id);
-  }
-
-  @Post('category')
-  createCategory(@Body() dto: CategoryInterface): Promise<Category> {
-    return this.contactHelperService.createCategory(dto);
   }
 
   @Post('social')
